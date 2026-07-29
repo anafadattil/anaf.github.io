@@ -28,15 +28,28 @@
   html{ scroll-behavior: smooth; }
 
   body{
-    background:
-      linear-gradient(var(--grid) 1px, transparent 1px) 0 0/100% 32px,
-      linear-gradient(90deg, var(--grid) 1px, transparent 1px) 0 0/32px 100%,
-      var(--bg);
-    background-attachment: fixed;
+    background: var(--bg);
     color: var(--text);
     font-family: var(--sans);
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
+    position: relative;
+  }
+
+  body::before{
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background:
+      linear-gradient(var(--grid) 1px, transparent 1px) 0 0/100% 32px,
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px) 0 0/32px 100%;
+    animation: gridDrift 24s linear infinite;
+  }
+
+  @keyframes gridDrift{
+    from{ background-position: 0 0, 0 0; }
+    to{ background-position: 0 320px, 320px 0; }
   }
 
   a{ color: inherit; }
@@ -64,6 +77,7 @@
     border-bottom: 1px solid var(--border);
   }
   .ribbon-inner{
+    position: relative;
     max-width: 1100px;
     margin: 0 auto;
     padding: 0 28px;
@@ -72,6 +86,16 @@
     gap: 6px;
     height: 52px;
     overflow-x: auto;
+  }
+  .ribbon-indicator{
+    position: absolute;
+    bottom: 0;
+    height: 2px;
+    background: var(--teal);
+    border-radius: 2px 2px 0 0;
+    transition: left .3s cubic-bezier(.4,0,.2,1), width .3s cubic-bezier(.4,0,.2,1), opacity .2s ease;
+    opacity: 0;
+    pointer-events: none;
   }
   .ribbon-brand{
     font-family: var(--mono);
@@ -109,6 +133,11 @@
     .hero{ grid-template-columns: 1fr; }
   }
 
+  @keyframes fadeInUp{
+    from{ opacity: 0; transform: translateY(18px); }
+    to{ opacity: 1; transform: translateY(0); }
+  }
+
   .eyebrow{
     font-family: var(--mono);
     font-size: 11.5px;
@@ -119,6 +148,7 @@
     align-items:center;
     gap: 8px;
     margin-bottom: 14px;
+    animation: fadeInUp .6s ease .05s both;
   }
   .eyebrow::before{
     content:'';
@@ -135,6 +165,7 @@
     line-height: 1.15;
     color: var(--text);
     margin-bottom: 10px;
+    animation: fadeInUp .6s ease .12s both;
   }
   h1.name .amp{ color: var(--amber); }
 
@@ -144,6 +175,7 @@
     color: var(--muted);
     margin-bottom: 22px;
     max-width: 46ch;
+    animation: fadeInUp .6s ease .2s both;
   }
   .role-line strong{ color: var(--text); font-weight: 600; }
 
@@ -152,9 +184,10 @@
     font-size: 14.5px;
     max-width: 50ch;
     margin-bottom: 28px;
+    animation: fadeInUp .6s ease .28s both;
   }
 
-  .cta-row{ display:flex; gap: 12px; flex-wrap: wrap; }
+  .cta-row{ display:flex; gap: 12px; flex-wrap: wrap; animation: fadeInUp .6s ease .36s both; }
   .btn{
     font-family: var(--mono);
     font-size: 12.5px;
@@ -178,6 +211,7 @@
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+    animation: fadeInUp .7s ease .15s both;
   }
   .editor-titlebar{
     display:flex;
@@ -316,8 +350,9 @@
   .proj-title{ font-weight: 700; font-size: 15px; margin-bottom: 8px; }
   .proj-desc{ color: var(--muted); font-size: 13.5px; margin-bottom: 14px; }
   .spark{ display:block; width: 100%; height: 40px; }
-  .spark path{ fill:none; stroke: var(--teal); stroke-width: 1.6; }
-  .spark .fill{ fill: url(#sparkFill); stroke:none; }
+  .spark path{ fill:none; stroke: var(--teal); stroke-width: 1.6; transition: stroke-dashoffset 1.1s cubic-bezier(.3,0,.2,1); }
+  .spark .fill{ fill: url(#sparkFill); stroke:none; transition: opacity .8s ease .3s; opacity: 0; }
+  .proj-card.show .spark .fill{ opacity: 1; }
 
   /* ---------- SKILLS as model relationship ---------- */
   .model-wrap{
@@ -388,6 +423,7 @@
       <a class="ribbon-tab" data-tab="projects" href="#projects">Projects</a>
       <a class="ribbon-tab" data-tab="model" href="#model">Data Model</a>
       <a class="ribbon-tab" data-tab="contact" href="#contact">Contact</a>
+      <span class="ribbon-indicator" id="ribbon-indicator"></span>
     </div>
   </nav>
 
@@ -414,9 +450,9 @@
 <span id="dax-code"></span><span class="cursor" id="cursor"></span>
         </div>
         <div class="kpi-row" id="kpi-row">
-          <div class="kpi"><div class="kpi-value">30+</div><div class="kpi-label">Live Dashboards</div></div>
-          <div class="kpi"><div class="kpi-value">10 mo</div><div class="kpi-label">Fresher → Sr. Executive</div></div>
-          <div class="kpi"><div class="kpi-value">3</div><div class="kpi-label">Source Platforms Unified</div></div>
+          <div class="kpi"><div class="kpi-value" data-target="30" data-suffix="+">0</div><div class="kpi-label">Live Dashboards</div></div>
+          <div class="kpi"><div class="kpi-value" data-target="10" data-suffix=" mo">0</div><div class="kpi-label">Fresher → Sr. Executive</div></div>
+          <div class="kpi"><div class="kpi-value" data-target="3" data-suffix="">0</div><div class="kpi-label">Source Platforms Unified</div></div>
         </div>
       </div>
     </section>
@@ -456,7 +492,7 @@
 
       <div class="proj-grid">
 
-        <div class="proj-card reveal">
+        <div class="proj-card reveal" style="transition-delay:.02s">
           <div class="proj-top"><div class="proj-title">Utility Allocation Engine</div><div class="proj-tag">DAX + Power Query</div></div>
           <div class="proj-desc">When two brand counters were physically merged at a hub, gas/water/electricity costs needed splitting by actual sales share, not a flat 50/50. Built a sales-weighted split off a <code>brandwise_split</code> JSON column, with parallel Power Query and pure-DAX (CALCULATE + REMOVEFILTERS + USERELATIONSHIP) approaches.</div>
           <svg class="spark" viewBox="0 0 200 40" preserveAspectRatio="none">
@@ -465,7 +501,7 @@
           </svg>
         </div>
 
-        <div class="proj-card reveal">
+        <div class="proj-card reveal" style="transition-delay:.08s">
           <div class="proj-top"><div class="proj-title">Hub-Level P&L Matrix</div><div class="proj-tag">SWITCH · Matrix</div></div>
           <div class="proj-desc">A 40-metric P&L matrix driven by a disconnected metrics table and a single SWITCH measure. Traced a stubborn "hub row won't disappear" bug to FORMAT(BLANK()) silently returning "0" instead of a true blank — fixed by wrapping every FORMAT call in an ISBLANK guard.</div>
           <svg class="spark" viewBox="0 0 200 40" preserveAspectRatio="none">
@@ -474,7 +510,7 @@
           </svg>
         </div>
 
-        <div class="proj-card reveal">
+        <div class="proj-card reveal" style="transition-delay:.14s">
           <div class="proj-top"><div class="proj-title">DimHub / DimBrand Consolidation</div><div class="proj-tag">ADDCOLUMNS</div></div>
           <div class="proj-desc">Calculated dimension tables that unify hub and brand identity across Swiggy, Zomato, and the Kitchens@ App funnel — each platform with its own ID space — using ADDCOLUMNS and LOOKUPVALUE so downstream measures never have to know which source a row came from.</div>
           <svg class="spark" viewBox="0 0 200 40" preserveAspectRatio="none">
@@ -483,7 +519,7 @@
           </svg>
         </div>
 
-        <div class="proj-card reveal">
+        <div class="proj-card reveal" style="transition-delay:.02s">
           <div class="proj-top"><div class="proj-title">Automated Wastage Alerting</div><div class="proj-tag">Power Automate</div></div>
           <div class="proj-desc">A DAX query (SUMMARIZECOLUMNS + a "not entered" flag measure) feeding a Power Automate flow that sends each hub manager a single consolidated email when wastage data goes missing, instead of every manager checking manually.</div>
           <svg class="spark" viewBox="0 0 200 40" preserveAspectRatio="none">
@@ -492,7 +528,7 @@
           </svg>
         </div>
 
-        <div class="proj-card reveal">
+        <div class="proj-card reveal" style="transition-delay:.08s">
           <div class="proj-top"><div class="proj-title">Page-Level RLS</div><div class="proj-tag">ISINROLE</div></div>
           <div class="proj-desc">Role-based page visibility using ISINROLE() DAX expressions, with defined roles, tested via "View As Roles," and published through Service — including catching the gotcha where a user in no role sees a fully blank report.</div>
           <svg class="spark" viewBox="0 0 200 40" preserveAspectRatio="none">
@@ -501,7 +537,7 @@
           </svg>
         </div>
 
-        <div class="proj-card reveal">
+        <div class="proj-card reveal" style="transition-delay:.14s">
           <div class="proj-top"><div class="proj-title">DimDate, Built by DAX</div><div class="proj-tag">Calculated Table</div></div>
           <div class="proj-desc">A calculated date dimension unioning date columns from seven source tables across two schemas, with a dynamic cutoff at TODAY()-1 — later ported to Power Query M with List.Transform and a negative-serial sort column for correct chronological ordering.</div>
           <svg class="spark" viewBox="0 0 200 40" preserveAspectRatio="none">
@@ -575,23 +611,55 @@
   <footer>Anaf Adattil — built row by row.</footer>
 
 <script>
-  // Ribbon active tab on scroll
+  // Ribbon active tab on scroll + sliding indicator
   const sections = document.querySelectorAll('section[id]');
   const tabs = document.querySelectorAll('.ribbon-tab');
+  const indicator = document.getElementById('ribbon-indicator');
+  const moveIndicator = (tab) => {
+    if(!tab || !indicator) return;
+    indicator.style.left = tab.offsetLeft + 'px';
+    indicator.style.width = tab.offsetWidth + 'px';
+    indicator.style.opacity = '1';
+  };
   const setActive = () => {
     let current = 'home';
     sections.forEach(sec => {
       const rect = sec.getBoundingClientRect();
       if(rect.top <= 90) current = sec.id;
     });
-    tabs.forEach(t => t.classList.toggle('active', t.dataset.tab === current));
+    let activeTab = null;
+    tabs.forEach(t => {
+      const isActive = t.dataset.tab === current;
+      t.classList.toggle('active', isActive);
+      if(isActive) activeTab = t;
+    });
+    moveIndicator(activeTab);
   };
   document.addEventListener('scroll', setActive);
+  window.addEventListener('resize', setActive);
   setActive();
+
+  // Sparkline draw-in helper
+  function drawSpark(card){
+    const linePath = card.querySelector('.spark path:not(.fill)');
+    if(!linePath || linePath.dataset.drawn) return;
+    linePath.dataset.drawn = '1';
+    const len = linePath.getTotalLength();
+    linePath.style.strokeDasharray = len;
+    linePath.style.strokeDashoffset = len;
+    // force reflow so the transition actually runs
+    linePath.getBoundingClientRect();
+    requestAnimationFrame(() => { linePath.style.strokeDashoffset = 0; });
+  }
 
   // Reveal on scroll
   const io = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('show'); });
+    entries.forEach(e => {
+      if(e.isIntersecting){
+        e.target.classList.add('show');
+        if(e.target.classList.contains('proj-card')) drawSpark(e.target);
+      }
+    });
   }, { threshold: 0.15 });
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
@@ -655,9 +723,27 @@
     setTimeout(typeNext, ch === '\n' ? 120 : 22);
   }
 
+  function countUp(el, duration = 900){
+    const target = parseFloat(el.dataset.target || '0');
+    const suffix = el.dataset.suffix || '';
+    const start = performance.now();
+    function tick(now){
+      const p = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      const val = Math.round(target * eased);
+      el.textContent = val + suffix;
+      if(p < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+
   function revealKPIs(){
     document.querySelectorAll('.kpi').forEach((el, i) => {
-      setTimeout(() => el.classList.add('show'), i * 180);
+      setTimeout(() => {
+        el.classList.add('show');
+        const valueEl = el.querySelector('.kpi-value');
+        if(valueEl) countUp(valueEl);
+      }, i * 180);
     });
   }
 
