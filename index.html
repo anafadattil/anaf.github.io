@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anaf Adattil — Data Analyst / BI Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0D1117;
+    --panel: #151B23;
+    --panel-2: #1B222C;
+    --grid: #232B36;
+    --border: #2A323E;
+    --text: #E6EDF3;
+    --muted: #7D8A9C;
+    --muted-2: #576273;
+    --amber: #E3B341;
+    --teal: #45D6BE;
+    --rose: #F76E6E;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Inter', sans-serif;
+  }
+
+  *{ box-sizing: border-box; margin:0; padding:0; }
+  html{ scroll-behavior: smooth; }
+
+  body{
+    background:
+      linear-gradient(var(--grid) 1px, transparent 1px) 0 0/100% 32px,
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px) 0 0/32px 100%,
+      var(--bg);
+    background-attachment: fixed;
+    color: var(--text);
+    font-family: var(--sans);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a{ color: inherit; }
+
+  ::selection{ background: var(--amber); color: #0D1117; }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation: none !important; transition: none !important; }
+    html{ scroll-behavior: auto; }
+  }
+
+  .container{
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+
+  /* ---------- RIBBON ---------- */
+  .ribbon{
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(13,17,23,0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+  }
+  .ribbon-inner{
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 28px;
+    display:flex;
+    align-items:center;
+    gap: 6px;
+    height: 52px;
+    overflow-x: auto;
+  }
+  .ribbon-brand{
+    font-family: var(--mono);
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.02em;
+    color: var(--amber);
+    margin-right: 18px;
+    white-space: nowrap;
+  }
+  .ribbon-brand span{ color: var(--muted); font-weight: 400; }
+  .ribbon-tab{
+    font-family: var(--mono);
+    font-size: 12.5px;
+    color: var(--muted);
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 4px 4px 0 0;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: color .15s ease, border-color .15s ease;
+  }
+  .ribbon-tab:hover{ color: var(--text); border-color: var(--muted-2); }
+  .ribbon-tab.active{ color: var(--teal); border-color: var(--teal); }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding: 72px 0 56px;
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 40px;
+    align-items: start;
+  }
+  @media (max-width: 860px){
+    .hero{ grid-template-columns: 1fr; }
+  }
+
+  .eyebrow{
+    font-family: var(--mono);
+    font-size: 11.5px;
+    color: var(--muted);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    display:flex;
+    align-items:center;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .eyebrow::before{
+    content:'';
+    width: 7px; height:7px; border-radius: 50%;
+    background: var(--teal);
+    box-shadow: 0 0 0 3px rgba(69,214,190,0.15);
+  }
+
+  h1.name{
+    font-family: var(--mono);
+    font-weight: 800;
+    font-size: clamp(28px, 4vw, 42px);
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+    color: var(--text);
+    margin-bottom: 10px;
+  }
+  h1.name .amp{ color: var(--amber); }
+
+  .role-line{
+    font-family: var(--sans);
+    font-size: 16px;
+    color: var(--muted);
+    margin-bottom: 22px;
+    max-width: 46ch;
+  }
+  .role-line strong{ color: var(--text); font-weight: 600; }
+
+  .hero-copy{
+    color: var(--muted);
+    font-size: 14.5px;
+    max-width: 50ch;
+    margin-bottom: 28px;
+  }
+
+  .cta-row{ display:flex; gap: 12px; flex-wrap: wrap; }
+  .btn{
+    font-family: var(--mono);
+    font-size: 12.5px;
+    padding: 11px 18px;
+    border-radius: 6px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .btn-primary{ background: var(--amber); color: #171207; font-weight: 700; }
+  .btn-primary:hover{ transform: translateY(-1px); box-shadow: 0 6px 18px rgba(227,179,65,0.25); }
+  .btn-ghost{ border: 1px solid var(--border); color: var(--text); }
+  .btn-ghost:hover{ border-color: var(--teal); color: var(--teal); }
+
+  /* ---------- QUERY EDITOR PANEL (signature) ---------- */
+  .editor{
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+  }
+  .editor-titlebar{
+    display:flex;
+    align-items:center;
+    gap: 8px;
+    padding: 10px 14px;
+    background: var(--panel-2);
+    border-bottom: 1px solid var(--border);
+  }
+  .dot{ width:9px; height:9px; border-radius:50%; }
+  .dot.r{ background:#F76E6E44; border:1px solid #F76E6E88;}
+  .dot.y{ background:#E3B34144; border:1px solid #E3B34188;}
+  .dot.g{ background:#45D6BE44; border:1px solid #45D6BE88;}
+  .editor-filename{
+    font-family: var(--mono);
+    font-size: 11.5px;
+    color: var(--muted);
+    margin-left: 8px;
+  }
+  .editor-body{
+    padding: 18px 18px 20px;
+    font-family: var(--mono);
+    font-size: 13px;
+    min-height: 210px;
+  }
+  #dax-code{ white-space: pre-wrap; word-break: break-word; color: var(--text); }
+  .kw{ color: var(--amber); }
+  .fn{ color: var(--teal); }
+  .str{ color: #B7D67A; }
+  .cm{ color: var(--muted-2); }
+  .cursor{
+    display:inline-block; width: 7px; height: 15px;
+    background: var(--teal); vertical-align: middle;
+    animation: blink 1s step-end infinite;
+  }
+  @keyframes blink{ 50%{ opacity:0; } }
+
+  .kpi-row{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 1px solid var(--border);
+  }
+  .kpi{
+    padding: 16px 14px;
+    border-right: 1px solid var(--border);
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity .5s ease, transform .5s ease;
+  }
+  .kpi:last-child{ border-right: none; }
+  .kpi.show{ opacity: 1; transform: translateY(0); }
+  .kpi-value{
+    font-family: var(--mono);
+    font-weight: 700;
+    font-size: 20px;
+    color: var(--teal);
+  }
+  .kpi-label{
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-top: 4px;
+  }
+
+  /* ---------- SECTION SHARED ---------- */
+  section{ padding: 60px 0; border-top: 1px solid var(--border); }
+  .section-head{ display:flex; align-items:baseline; gap: 12px; margin-bottom: 30px; }
+  .section-num{ font-family: var(--mono); color: var(--muted-2); font-size: 13px; }
+  .section-title{ font-family: var(--mono); font-weight: 700; font-size: 20px; }
+  .section-sub{ color: var(--muted); font-size: 13.5px; margin-top: -18px; margin-bottom: 26px; max-width: 60ch; }
+
+  .reveal{ opacity: 0; transform: translateY(14px); transition: opacity .6s ease, transform .6s ease; }
+  .reveal.show{ opacity: 1; transform: translateY(0); }
+
+  /* ---------- EXPERIENCE ---------- */
+  .exp-card{
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 26px 26px 22px;
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 24px;
+  }
+  @media (max-width: 700px){ .exp-card{ grid-template-columns: 1fr; } }
+  .exp-meta .exp-org{ font-weight: 700; font-size: 15px; }
+  .exp-meta .exp-time{ font-family: var(--mono); font-size: 11.5px; color: var(--teal); margin-top: 6px; }
+  .exp-meta .exp-title{ color: var(--muted); font-size: 13px; margin-top: 10px; }
+  .exp-list{ list-style: none; }
+  .exp-list li{
+    font-size: 14px;
+    color: var(--muted);
+    padding-left: 18px;
+    position: relative;
+    margin-bottom: 12px;
+  }
+  .exp-list li::before{
+    content: '›';
+    position: absolute; left: 0; top: 0;
+    color: var(--amber);
+    font-family: var(--mono);
+    font-weight: 700;
+  }
+  .exp-list li strong{ color: var(--text); font-weight: 600; }
+
+  /* ---------- PROJECTS ---------- */
+  .proj-grid{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+  }
+  @media (max-width: 720px){ .proj-grid{ grid-template-columns: 1fr; } }
+
+  .proj-card{
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px 20px 18px;
+    transition: border-color .2s ease, transform .2s ease;
+  }
+  .proj-card:hover{ border-color: var(--teal); transform: translateY(-2px); }
+  .proj-top{ display:flex; justify-content: space-between; align-items:flex-start; gap: 10px; margin-bottom: 10px; }
+  .proj-tag{
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--amber);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    border: 1px solid rgba(227,179,65,0.35);
+    padding: 3px 7px;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+  .proj-title{ font-weight: 700; font-size: 15px; margin-bottom: 8px; }
+  .proj-desc{ color: var(--muted); font-size: 13.5px; margin-bottom: 14px; }
+  .spark{ display:block; width: 100%; height: 40px; }
+  .spark path{ fill:none; stroke: var(--teal); stroke-width: 1.6; }
+  .spark .fill{ fill: url(#sparkFill); stroke:none; }
+
+  /* ---------- SKILLS as model relationship ---------- */
+  .model-wrap{
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 26px;
+  }
+  .model-groups{ display:grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  @media (max-width: 860px){ .model-groups{ grid-template-columns: repeat(2, 1fr); } }
+  .model-table{
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .model-table-head{
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--bg);
+    background: var(--teal);
+    padding: 7px 10px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+  }
+  .model-table-head.amber{ background: var(--amber); }
+  .model-col{
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+    padding: 7px 10px;
+    border-top: 1px solid var(--border);
+  }
+  .model-col:hover{ color: var(--text); }
+
+  /* ---------- CONTACT / EXPORT ---------- */
+  .export-panel{
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 30px;
+    display:grid;
+    grid-template-columns: 1fr auto;
+    align-items:center;
+    gap: 20px;
+  }
+  @media (max-width: 700px){ .export-panel{ grid-template-columns: 1fr; } }
+  .export-title{ font-family: var(--mono); font-weight: 700; font-size: 17px; margin-bottom: 6px; }
+  .export-sub{ color: var(--muted); font-size: 13.5px; }
+  .export-links{ display:flex; gap: 10px; flex-wrap: wrap; }
+
+  footer{
+    text-align:center;
+    color: var(--muted-2);
+    font-family: var(--mono);
+    font-size: 11.5px;
+    padding: 30px 0 40px;
+  }
+</style>
+</head>
+<body>
+
+  <nav class="ribbon">
+    <div class="ribbon-inner">
+      <div class="ribbon-brand">AA<span>.pbix</span></div>
+      <a class="ribbon-tab" data-tab="home" href="#home">Home</a>
+      <a class="ribbon-tab" data-tab="experience" href="#experience">Experience</a>
+      <a class="ribbon-tab" data-tab="projects" href="#projects">Projects</a>
+      <a class="ribbon-tab" data-tab="model" href="#model">Data Model</a>
+      <a class="ribbon-tab" data-tab="contact" href="#contact">Contact</a>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <section id="home" class="hero" style="border-top:none;">
+      <div>
+        <div class="eyebrow">Report View — Refreshed Today</div>
+        <h1 class="name">Anaf Adattil<span class="amp">.</span></h1>
+        <p class="role-line"><strong>Senior Executive — Data Analyst</strong> at Kitchens@, building the BI backbone for a multi-city cloud kitchen network.</p>
+        <p class="hero-copy">I turn raw operational data — Swiggy, Zomato, in-house app funnels, utility meters — into data models and DAX measures that C-suite and ops teams actually run the business on. ETL, semantic modeling, and 30+ dashboards, built solo.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#projects">View Projects</a>
+          <a class="btn btn-ghost" href="#contact">Get in Touch</a>
+        </div>
+      </div>
+
+      <div class="editor">
+        <div class="editor-titlebar">
+          <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+          <div class="editor-filename">Measures › Impact.dax</div>
+        </div>
+        <div class="editor-body">
+<span id="dax-code"></span><span class="cursor" id="cursor"></span>
+        </div>
+        <div class="kpi-row" id="kpi-row">
+          <div class="kpi"><div class="kpi-value">30+</div><div class="kpi-label">Live Dashboards</div></div>
+          <div class="kpi"><div class="kpi-value">10 mo</div><div class="kpi-label">Fresher → Sr. Executive</div></div>
+          <div class="kpi"><div class="kpi-value">3</div><div class="kpi-label">Source Platforms Unified</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="experience">
+      <div class="section-head reveal">
+        <span class="section-num">01</span>
+        <span class="section-title">Experience</span>
+      </div>
+      <div class="exp-card reveal">
+        <div class="exp-meta">
+          <div class="exp-org">Kitchens@</div>
+          <div class="exp-time">Fresher → Sr. Executive · 10 mo</div>
+          <div class="exp-title">Loyal Hospitality Pvt. Ltd.<br>Data Analyst, BI</div>
+        </div>
+        <ul class="exp-list">
+          <li>Built the company's <strong>entire BI function from scratch</strong> — no inherited pipelines, no existing semantic model.</li>
+          <li>Designed <strong>ETL pipelines</strong> pulling from PostgreSQL, MySQL, and Excel sources across a multi-city hub network.</li>
+          <li>Built a <strong>centralized data model</strong> (DimHub, DimBrand, DimDate) consolidating Swiggy, Zomato, and in-house app-funnel data.</li>
+          <li>Shipped <strong>30+ real-time Power BI dashboards</strong> used daily by C-suite and operations teams for GMV, margins, and hub P&L.</li>
+          <li>Promoted from fresher to <strong>Senior Executive within 10 months</strong> on the strength of that build-out.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="projects">
+      <div class="section-head reveal">
+        <span class="section-num">02</span>
+        <span class="section-title">Projects</span>
+      </div>
+      <p class="section-sub reveal">A selection of the modeling problems behind those dashboards — the kind that don't show up on the report canvas, only in whether the numbers are right.</p>
+
+      <svg width="0" height="0"><defs><linearGradient id="sparkFill" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#45D6BE" stop-opacity="0.35"/>
+        <stop offset="100%" stop-color="#45D6BE" stop-opacity="0"/>
+      </linearGradient></defs></svg>
+
+      <div class="proj-grid">
+
+        <div class="proj-card reveal">
+          <div class="proj-top"><div class="proj-title">Utility Allocation Engine</div><div class="proj-tag">DAX + Power Query</div></div>
+          <div class="proj-desc">When two brand counters were physically merged at a hub, gas/water/electricity costs needed splitting by actual sales share, not a flat 50/50. Built a sales-weighted split off a <code>brandwise_split</code> JSON column, with parallel Power Query and pure-DAX (CALCULATE + REMOVEFILTERS + USERELATIONSHIP) approaches.</div>
+          <svg class="spark" viewBox="0 0 200 40" preserveAspectRatio="none">
+            <path class="fill" d="M0,32 L20,26 L40,28 L60,18 L80,22 L100,12 L120,16 L140,8 L160,14 L180,6 L200,10 L200,40 L0,40 Z"/>
+            <path d="M0,32 L20,26 L40,28 L60,18 L80,22 L100,12 L120,16 L140,8 L160,14 L180,6 L200,10"/>
+          </svg>
+        </div>
+
+        <div class="proj-card reveal">
+          <div class="proj-top"><div class="proj-title">Hub-Level P&L Matrix</div><div class="proj-tag">SWITCH · Matrix</div></div>
+          <div class="proj-desc">A 40-metric P&L matrix driven by a disconnected metrics table and a single SWITCH measure. Traced a stubborn "hub row won't disappear" bug to FORMAT(BLANK()) silently returning "0" instead of a true blank — fixed by wrapping every FORMAT call in an ISBLANK guard.</div>
+          <svg class="spark" viewBox="0 0 200 40" preserveAspectRatio="none">
+            <path class="fill" d="M0,20 L20,24 L40,14 L60,26 L80,10 L100,22 L120,8 L140,18 L160,6 L180,16 L200,4 L200,40 L0,40 Z"/>
+            <path d="M0,20 L20,24 L40,14 L60,26 L80,10 L100,22 L120,8 L140,18 L160,6 L180,16 L200,4"/>
+          </svg>
+        </div>
+
+        <div class="proj-card reveal">
+          <div class="proj-top"><div class="proj-title">DimHub / DimBrand Consolidation</div><div class="proj-tag">ADDCOLUMNS</div></div>
+          <div class="proj-desc">Calculated dimension tables that unify hub and brand identity across Swiggy, Zomato, and the Kitchens@ App funnel — each platform with its own ID space — using ADDCOLUMNS and LOOKUPVALUE so downstream measures never have to know which source a row came from.</div>
+          <svg class="spark" viewBox="0 0 200 40" preserveAspectRatio="none">
+            <path class="fill" d="M0,30 L20,22 L40,24 L60,14 L80,20 L100,10 L120,16 L140,6 L160,12 L180,8 L200,14 L200,40 L0,40 Z"/>
+            <path d="M0,30 L20,22 L40,24 L60,14 L80,20 L100,10 L120,16 L140,6 L160,12 L180,8 L200,14"/>
+          </svg>
+        </div>
+
+        <div class="proj-card reveal">
+          <div class="proj-top"><div class="proj-title">Automated Wastage Alerting</div><div class="proj-tag">Power Automate</div></div>
+          <div class="proj-desc">A DAX query (SUMMARIZECOLUMNS + a "not entered" flag measure) feeding a Power Automate flow that sends each hub manager a single consolidated email when wastage data goes missing, instead of every manager checking manually.</div>
+          <svg class="spark" viewBox="0 0 200 40" preserveAspectRatio="none">
+            <path class="fill" d="M0,10 L20,16 L40,8 L60,20 L80,12 L100,26 L120,14 L140,22 L160,10 L180,18 L200,12 L200,40 L0,40 Z"/>
+            <path d="M0,10 L20,16 L40,8 L60,20 L80,12 L100,26 L120,14 L140,22 L160,10 L180,18 L200,12"/>
+          </svg>
+        </div>
+
+        <div class="proj-card reveal">
+          <div class="proj-top"><div class="proj-title">Page-Level RLS</div><div class="proj-tag">ISINROLE</div></div>
+          <div class="proj-desc">Role-based page visibility using ISINROLE() DAX expressions, with defined roles, tested via "View As Roles," and published through Service — including catching the gotcha where a user in no role sees a fully blank report.</div>
+          <svg class="spark" viewBox="0 0 200 40" preserveAspectRatio="none">
+            <path class="fill" d="M0,26 L20,20 L40,22 L60,12 L80,18 L100,8 L120,14 L140,6 L160,10 L180,4 L200,8 L200,40 L0,40 Z"/>
+            <path d="M0,26 L20,20 L40,22 L60,12 L80,18 L100,8 L120,14 L140,6 L160,10 L180,4 L200,8"/>
+          </svg>
+        </div>
+
+        <div class="proj-card reveal">
+          <div class="proj-top"><div class="proj-title">DimDate, Built by DAX</div><div class="proj-tag">Calculated Table</div></div>
+          <div class="proj-desc">A calculated date dimension unioning date columns from seven source tables across two schemas, with a dynamic cutoff at TODAY()-1 — later ported to Power Query M with List.Transform and a negative-serial sort column for correct chronological ordering.</div>
+          <svg class="spark" viewBox="0 0 200 40" preserveAspectRatio="none">
+            <path class="fill" d="M0,18 L20,24 L40,16 L60,22 L80,10 L100,20 L120,6 L140,16 L160,4 L180,12 L200,6 L200,40 L0,40 Z"/>
+            <path d="M0,18 L20,24 L40,16 L60,22 L80,10 L100,20 L120,6 L140,16 L160,4 L180,12 L200,6"/>
+          </svg>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="model">
+      <div class="section-head reveal">
+        <span class="section-num">03</span>
+        <span class="section-title">Toolset</span>
+      </div>
+      <p class="section-sub reveal">Laid out the way the actual semantic model is — tables, not tags.</p>
+      <div class="model-wrap reveal">
+        <div class="model-groups">
+          <div class="model-table">
+            <div class="model-table-head">Dim Modeling</div>
+            <div class="model-col">DAX</div>
+            <div class="model-col">Calculated Tables</div>
+            <div class="model-col">USERELATIONSHIP</div>
+            <div class="model-col">RLS / ISINROLE</div>
+          </div>
+          <div class="model-table">
+            <div class="model-table-head amber">Fact & ETL</div>
+            <div class="model-col">Power Query / M</div>
+            <div class="model-col">PostgreSQL</div>
+            <div class="model-col">MySQL</div>
+            <div class="model-col">Excel Ingestion</div>
+          </div>
+          <div class="model-table">
+            <div class="model-table-head">Reporting</div>
+            <div class="model-col">Power BI Service</div>
+            <div class="model-col">Matrix Visuals</div>
+            <div class="model-col">Conditional Formatting</div>
+            <div class="model-col">SWITCH Measures</div>
+          </div>
+          <div class="model-table">
+            <div class="model-table-head amber">Automation</div>
+            <div class="model-col">Power Automate</div>
+            <div class="model-col">SUMMARIZECOLUMNS</div>
+            <div class="model-col">Teams Adaptive Cards</div>
+            <div class="model-col">Scheduled Refresh</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="section-head reveal">
+        <span class="section-num">04</span>
+        <span class="section-title">Export</span>
+      </div>
+      <div class="export-panel reveal">
+        <div>
+          <div class="export-title">Let's talk data.</div>
+          <div class="export-sub">Open to BI, analytics, and data engineering conversations — reach out below.</div>
+        </div>
+        <div class="export-links">
+          <a class="btn btn-primary" href="mailto:your.email@example.com">Email Me</a>
+          <a class="btn btn-ghost" href="#" id="linkedin-link">LinkedIn</a>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <footer>Anaf Adattil — built row by row.</footer>
+
+<script>
+  // Ribbon active tab on scroll
+  const sections = document.querySelectorAll('section[id]');
+  const tabs = document.querySelectorAll('.ribbon-tab');
+  const setActive = () => {
+    let current = 'home';
+    sections.forEach(sec => {
+      const rect = sec.getBoundingClientRect();
+      if(rect.top <= 90) current = sec.id;
+    });
+    tabs.forEach(t => t.classList.toggle('active', t.dataset.tab === current));
+  };
+  document.addEventListener('scroll', setActive);
+  setActive();
+
+  // Reveal on scroll
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('show'); });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // DAX typing effect (signature hero element)
+  const codeLines = [
+    { t: 'Dashboards Delivered = ', c: '' },
+    { t: 'CALCULATE(', c: 'kw' },
+    { t: '    COUNTROWS(', c: 'fn' , inline:true},
+    { t: "'Dim Dashboard'" , c:'str', inline:true},
+    { t: '),', c:'', inline:true},
+    { t: "    'Dim Dashboard'[Status] = " , c:'', inline:true},
+    { t: '"Live"', c:'str', inline:true},
+    { t: '\n)', c:'' }
+  ];
+
+  const raw = [
+    {text:'Dashboards Delivered = \n', cls:''},
+    {text:'CALCULATE', cls:'fn'},
+    {text:'(\n    ', cls:''},
+    {text:'COUNTROWS', cls:'fn'},
+    {text:'(', cls:''},
+    {text:"'Dim Dashboard'", cls:'str'},
+    {text:'),\n    ', cls:''},
+    {text:"'Dim Dashboard'", cls:'str'},
+    {text:'[Status] = ', cls:''},
+    {text:'"Live"', cls:'str'},
+    {text:'\n)', cls:''},
+  ];
+
+  const target = document.getElementById('dax-code');
+  const cursor = document.getElementById('cursor');
+  let flatChars = [];
+  raw.forEach(seg => {
+    for(const ch of seg.text){ flatChars.push({ch, cls: seg.cls}); }
+  });
+
+  let idx = 0;
+  function typeNext(){
+    if(idx >= flatChars.length){
+      cursor.style.display = 'none';
+      revealKPIs();
+      return;
+    }
+    const {ch, cls} = flatChars[idx];
+    if(cls){
+      // group consecutive same-class chars for cleaner spans
+      let span = target.querySelector('span.building');
+      if(!span || span.dataset.cls !== cls){
+        span = document.createElement('span');
+        span.className = cls + ' building';
+        span.dataset.cls = cls;
+        target.appendChild(span);
+      }
+      span.textContent += ch;
+      span.classList.remove('building'); // keep but allow next check
+      span.classList.add('building');
+    } else {
+      target.appendChild(document.createTextNode(ch));
+    }
+    idx++;
+    setTimeout(typeNext, ch === '\n' ? 120 : 22);
+  }
+
+  function revealKPIs(){
+    document.querySelectorAll('.kpi').forEach((el, i) => {
+      setTimeout(() => el.classList.add('show'), i * 180);
+    });
+  }
+
+  setTimeout(typeNext, 500);
+</script>
+
+</body>
+</html>
