@@ -404,6 +404,29 @@
   .export-sub{ color: var(--muted); font-size: 13.5px; }
   .export-links{ display:flex; gap: 10px; flex-wrap: wrap; }
 
+  .edu-grid{ display:grid; grid-template-columns: 1.2fr 1fr; gap: 26px; }
+  @media (max-width: 700px){ .edu-grid{ grid-template-columns: 1fr; } }
+
+  .cert-grid{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+  @media (max-width: 860px){ .cert-grid{ grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px){ .cert-grid{ grid-template-columns: 1fr; } }
+
+  .cert-card{
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 13px 15px;
+    transition: border-color .2s ease, transform .2s ease;
+  }
+  .cert-card:hover{ border-color: var(--teal); transform: translateY(-1px); }
+  .cert-title{ font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 5px; line-height: 1.3; }
+  .cert-issuer{ font-family: var(--mono); font-size: 10.5px; color: var(--muted); }
+  .cert-date{ font-family: var(--mono); font-size: 10px; color: var(--teal); margin-top: 6px; }
+
   footer{
     text-align:center;
     color: var(--muted-2);
@@ -422,6 +445,7 @@
       <a class="ribbon-tab" data-tab="experience" href="#experience">Experience</a>
       <a class="ribbon-tab" data-tab="projects" href="#projects">Projects</a>
       <a class="ribbon-tab" data-tab="model" href="#model">Data Model</a>
+      <a class="ribbon-tab" data-tab="education" href="#education">Education</a>
       <a class="ribbon-tab" data-tab="contact" href="#contact">Contact</a>
       <span class="ribbon-indicator" id="ribbon-indicator"></span>
     </div>
@@ -433,8 +457,8 @@
       <div>
         <div class="eyebrow">Report View — Refreshed Today</div>
         <h1 class="name">Anaf Adattil<span class="amp">.</span></h1>
-        <p class="role-line"><strong>Senior Executive — Data Analyst</strong> at Kitchens@, building the BI backbone for a multi-city cloud kitchen network.</p>
-        <p class="hero-copy">I turn raw operational data — Swiggy, Zomato, in-house app funnels, utility meters — into data models and DAX measures that C-suite and ops teams actually run the business on. ETL, semantic modeling, and 30+ dashboards, built solo.</p>
+        <p class="role-line"><strong>Senior Executive — Data Analyst</strong> at Kitchens@, running BI for a cloud kitchen network of 700+ kitchens across 6 cities.</p>
+        <p class="hero-copy">I turn raw operational data — Swiggy, Zomato, Magicpin, in-house app funnels, utility meters — into data models and DAX measures that the CEO, COO, Finance, BD, and Ops teams run the business on daily. ETL, semantic modeling, and 30+ dashboards, built solo from the ground up.</p>
         <div class="cta-row">
           <a class="btn btn-primary" href="#projects">View Projects</a>
           <a class="btn btn-ghost" href="#contact">Get in Touch</a>
@@ -450,9 +474,9 @@
 <span id="dax-code"></span><span class="cursor" id="cursor"></span>
         </div>
         <div class="kpi-row" id="kpi-row">
+          <div class="kpi"><div class="kpi-value" data-target="700" data-suffix="+">0</div><div class="kpi-label">Kitchens Served</div></div>
+          <div class="kpi"><div class="kpi-value" data-target="6" data-suffix="">0</div><div class="kpi-label">Cities</div></div>
           <div class="kpi"><div class="kpi-value" data-target="30" data-suffix="+">0</div><div class="kpi-label">Live Dashboards</div></div>
-          <div class="kpi"><div class="kpi-value" data-target="10" data-suffix=" mo">0</div><div class="kpi-label">Fresher → Sr. Executive</div></div>
-          <div class="kpi"><div class="kpi-value" data-target="3" data-suffix="">0</div><div class="kpi-label">Source Platforms Unified</div></div>
         </div>
       </div>
     </section>
@@ -465,16 +489,40 @@
       <div class="exp-card reveal">
         <div class="exp-meta">
           <div class="exp-org">Kitchens@</div>
-          <div class="exp-time">Fresher → Sr. Executive · 10 mo</div>
-          <div class="exp-title">Loyal Hospitality Pvt. Ltd.<br>Data Analyst, BI</div>
+          <div class="exp-time">Apr 2026 – Present</div>
+          <div class="exp-title">Loyal Hospitality Pvt. Ltd., Bangalore<br>Senior Executive — Data Analyst</div>
         </div>
         <ul class="exp-list">
-          <li>Built the company's <strong>entire BI function from scratch</strong> — no inherited pipelines, no existing semantic model.</li>
-          <li>Designed <strong>ETL pipelines</strong> pulling from PostgreSQL, MySQL, and Excel sources across a multi-city hub network.</li>
-          <li>Built a <strong>centralized data model</strong> (DimHub, DimBrand, DimDate) consolidating Swiggy, Zomato, and in-house app-funnel data.</li>
-          <li>Shipped <strong>30+ real-time Power BI dashboards</strong> used daily by C-suite and operations teams for GMV, margins, and hub P&L.</li>
-          <li>Promoted from fresher to <strong>Senior Executive within 10 months</strong> on the strength of that build-out.</li>
+          <li><strong>Promoted to Senior Executive within 10 months</strong> of joining as a fresher, for independently owning the entire BI function across 700+ kitchens with zero team support.</li>
+          <li>Scaled BI infrastructure with <strong>10+ real-time dashboards</strong> used daily by the CEO, COO, Finance, BD, and Ops managers to drive expansion, cost control, and platform strategy across 6 cities.</li>
+          <li>Eliminated reporting lag by configuring a <strong>Power BI On-Premises Data Gateway</strong> for automated refresh across PostgreSQL, MySQL, and Excel sources.</li>
+          <li>Consolidated Swiggy, Zomato, and direct-order data into BD, platform, and marketing dashboards, giving teams a single source of truth for spend and growth decisions.</li>
+          <li><strong>Led and mentored 2 data interns</strong> on Power BI, SQL, and DAX while owning all pipelines and stakeholder reporting solo.</li>
+          <li>Established data governance standards, documenting dashboard logic and KPIs as the org's first structured analytics function.</li>
         </ul>
+      </div>
+
+      <div class="exp-card reveal" style="margin-top:18px;">
+        <div class="exp-meta">
+          <div class="exp-org">Kitchens@</div>
+          <div class="exp-time">Jun 2025 – Mar 2026</div>
+          <div class="exp-title">Loyal Hospitality Pvt. Ltd., Bangalore<br>Executive — Data Analyst</div>
+        </div>
+        <ul class="exp-list">
+          <li>Rebuilt the entire BI infrastructure from the ground up — a new end-to-end <strong>ETL pipeline</strong> connecting PostgreSQL, MySQL, and Excel into a unified, fully automated Power BI environment.</li>
+          <li>Delivered <strong>30+ dashboards</strong> across Sales & Revenue, Finance & Cost, Delivery Platform Performance, BD & Expansion, and Marketing — improving tracking accuracy by <strong>30%</strong>.</li>
+          <li>Cut manual reporting effort by <strong>60%</strong> by automating daily, weekly, and monthly reports via Power BI Service.</li>
+          <li>Improved report performance and query speed by <strong>25%</strong> through optimized data models and advanced DAX measures (Revenue per Sqft, YoY Growth, GMV Trends).</li>
+          <li>Implemented <strong>Row-Level Security</strong> to manage role-based data access across CEO, COO, Finance, BD, and Ops users.</li>
+          <li>Built real-time KPI scorecards and alerting for sales, GMV, CMV, revenue, and margins to catch anomalies as they happen.</li>
+        </ul>
+      </div>
+
+      <div class="reveal" style="margin-top: 22px; display:flex; flex-wrap:wrap; gap:10px;">
+        <span class="proj-tag" style="font-size:11px;">Sales & Revenue Dashboard</span>
+        <span class="proj-tag" style="font-size:11px;">Delivery Platform Performance</span>
+        <span class="proj-tag" style="font-size:11px;">BD & Expansion Tracker</span>
+        <span class="proj-tag" style="font-size:11px;">Operations KPI Scorecard</span>
       </div>
     </section>
 
@@ -558,40 +606,64 @@
       <div class="model-wrap reveal">
         <div class="model-groups">
           <div class="model-table">
-            <div class="model-table-head">Dim Modeling</div>
-            <div class="model-col">DAX</div>
-            <div class="model-col">Calculated Tables</div>
-            <div class="model-col">USERELATIONSHIP</div>
-            <div class="model-col">RLS / ISINROLE</div>
+            <div class="model-table-head">BI & Modeling</div>
+            <div class="model-col">DAX · Power Query</div>
+            <div class="model-col">Data Modeling</div>
+            <div class="model-col">RLS · On-Prem Gateway</div>
+            <div class="model-col">Bookmarks & Drillthrough</div>
           </div>
           <div class="model-table">
-            <div class="model-table-head amber">Fact & ETL</div>
-            <div class="model-col">Power Query / M</div>
-            <div class="model-col">PostgreSQL</div>
-            <div class="model-col">MySQL</div>
-            <div class="model-col">Excel Ingestion</div>
+            <div class="model-table-head amber">Data & ETL</div>
+            <div class="model-col">PostgreSQL · MySQL</div>
+            <div class="model-col">SQL (Joins, CTEs, Subqueries)</div>
+            <div class="model-col">Data Wrangling & Validation</div>
+            <div class="model-col">Snapshot Table Design</div>
           </div>
           <div class="model-table">
-            <div class="model-table-head">Reporting</div>
-            <div class="model-col">Power BI Service</div>
-            <div class="model-col">Matrix Visuals</div>
-            <div class="model-col">Conditional Formatting</div>
-            <div class="model-col">SWITCH Measures</div>
+            <div class="model-table-head">Analytics & Data Science</div>
+            <div class="model-col">Python (Pandas, NumPy)</div>
+            <div class="model-col">Excel (Power Pivot, Lookups)</div>
+            <div class="model-col">Forecasting & Trend Analysis</div>
+            <div class="model-col">ML Fundamentals</div>
           </div>
           <div class="model-table">
-            <div class="model-table-head amber">Automation</div>
+            <div class="model-table-head amber">Automation & Tools</div>
             <div class="model-col">Power Automate</div>
-            <div class="model-col">SUMMARIZECOLUMNS</div>
-            <div class="model-col">Teams Adaptive Cards</div>
-            <div class="model-col">Scheduled Refresh</div>
+            <div class="model-col">Git · Flask</div>
+            <div class="model-col">Google Sheets API</div>
+            <div class="model-col">Dashboard Automation</div>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="education">
+      <div class="section-head reveal">
+        <span class="section-num">04</span>
+        <span class="section-title">Education & Certifications</span>
+      </div>
+      <div class="model-wrap reveal edu-grid">
+        <div>
+          <div class="proj-tag" style="margin-bottom:12px; display:inline-block;">Education</div>
+          <ul class="exp-list">
+            <li><strong>B.Tech, Computer Science (Data Science)</strong> — Mar Athanasius College of Engineering, Kothamangalam, Kerala · 2022–2025</li>
+            <li><strong>Diploma, Computer Engineering</strong> — AKNM Govt. Polytechnic College, Thirurangadi, Kerala · 2019–2022</li>
+          </ul>
+        </div>
+        <div>
+          <div class="proj-tag" style="margin-bottom:12px; display:inline-block;">Certifications</div>
+          <ul class="exp-list">
+            <li>NASA International Space Apps Challenge</li>
+            <li>Certificate of Recognition — Young Innovators Programme</li>
+            <li>Certificate of Appreciation — Voice of Stakeholder (VoS) Training</li>
+          </ul>
         </div>
       </div>
     </section>
 
     <section id="contact">
       <div class="section-head reveal">
-        <span class="section-num">04</span>
+        <span class="section-num">05</span>
         <span class="section-title">Export</span>
       </div>
       <div class="export-panel reveal">
@@ -600,8 +672,10 @@
           <div class="export-sub">Open to BI, analytics, and data engineering conversations — reach out below.</div>
         </div>
         <div class="export-links">
-          <a class="btn btn-primary" href="mailto:your.email@example.com">Email Me</a>
-          <a class="btn btn-ghost" href="#" id="linkedin-link">LinkedIn</a>
+          <a class="btn btn-primary" href="mailto:anafadattil@gmail.com">Email Me</a>
+          <a class="btn btn-ghost" href="https://www.linkedin.com/in/anafadattil" target="_blank" rel="noopener">LinkedIn</a>
+          <a class="btn btn-ghost" href="https://github.com/anafadattil" target="_blank" rel="noopener">GitHub</a>
+          <a class="btn btn-ghost" href="tel:+918129622214">+91 81296 22214</a>
         </div>
       </div>
     </section>
