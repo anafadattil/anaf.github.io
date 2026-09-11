@@ -236,7 +236,16 @@
     50%{transform:translateY(10px);}
   }
 
-  .section-title{font-size:clamp(2rem,5vw,3rem);text-align:center;margin:0 0 10px;}
+  .section-title{
+    font-size:clamp(2rem,5vw,3rem);margin:0 0 24px;position:relative;
+    display:inline-block;overflow:hidden;padding:2px 4px;text-align:center;
+  }
+  .section-title::before{
+    content:'';position:absolute;top:0;left:-120%;width:70%;height:100%;
+    background:linear-gradient(100deg, transparent, rgba(242,200,17,.4) 45%, rgba(46,196,182,.35) 55%, transparent);
+    transform:skewX(-18deg);transition:left .9s cubic-bezier(.2,.7,.3,1);
+  }
+  .section-title.in::before{left:130%;}
   .section-kicker{
     text-align:center;color:var(--white);font-weight:700;max-width:560px;
     margin:0 0 40px;font-size:1.05rem;line-height:1.5;
@@ -245,7 +254,8 @@
 
   /* about faq */
   .faq{width:100%;max-width:640px;display:flex;flex-direction:column;gap:14px;}
-  .faq-item{background:var(--card);border-radius:10px;overflow:hidden;border:1px solid var(--line);}
+  .faq-item{background:var(--card);border-radius:10px;overflow:hidden;border:1px solid var(--line);transition:transform .2s ease, border-color .2s ease;}
+  .faq-item:hover{transform:translateX(5px);border-color:var(--accent-dim);}
   .faq-q{
     width:100%;background:none;border:none;color:var(--white);
     font-family:'Baloo 2',sans-serif;font-weight:700;font-size:1rem;
@@ -278,12 +288,16 @@
   .cert-item{
     background:var(--card);border:1px solid var(--line);border-radius:10px;
     padding:16px 20px;display:flex;align-items:center;gap:16px;
+    transition:transform .2s ease, border-color .2s ease, background .2s ease;
   }
+  .cert-item:hover{transform:translateX(6px);border-color:var(--teal);background:var(--card-2);}
   .cert-badge{
     width:34px;height:34px;border-radius:8px;background:rgba(242,200,17,.1);
     border:1px solid var(--accent-dim);display:flex;align-items:center;justify-content:center;
     flex-shrink:0;color:var(--accent);font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:600;
+    transition:transform .3s ease;
   }
+  .cert-item:hover .cert-badge{transform:rotate(-8deg) scale(1.08);}
   .cert-text h4{margin:0 0 2px;font-size:.95rem;font-weight:700;font-family:'Baloo 2',sans-serif;}
   .cert-text p{margin:0;color:var(--grey);font-size:.8rem;}
 
@@ -302,13 +316,19 @@
   .skill-chips span:hover{transform:translateY(-3px);border-color:var(--teal);}
 
   /* experience */
-  .exp-tabs{display:flex;gap:10px;margin-bottom:28px;flex-wrap:wrap;justify-content:center;}
-  .exp-tab{
-    background:var(--card-2);border:1.5px solid var(--line);color:var(--grey);
-    font-family:'Baloo 2',sans-serif;font-weight:700;font-size:.82rem;
-    padding:9px 18px;border-radius:8px;cursor:pointer;transition:all .2s ease;
+  .exp-tabs{display:flex;gap:10px;margin-bottom:28px;flex-wrap:wrap;justify-content:center;position:relative;}
+  .tab-indicator{
+    position:absolute;top:0;bottom:0;background:var(--accent);border-radius:8px;
+    transition:left .3s cubic-bezier(.4,0,.2,1), width .3s cubic-bezier(.4,0,.2,1);
+    z-index:0;
   }
-  .exp-tab.active{background:var(--accent);color:#1a1300;border-color:var(--accent);}
+  .exp-tab{
+    background:transparent;border:1.5px solid var(--line);color:var(--grey);
+    font-family:'Baloo 2',sans-serif;font-weight:700;font-size:.82rem;
+    padding:9px 18px;border-radius:8px;cursor:pointer;transition:color .2s ease, border-color .2s ease;
+    position:relative;z-index:1;
+  }
+  .exp-tab.active{color:#1a1300;border-color:var(--accent);}
   .exp-panels{width:100%;max-width:720px;}
   .exp-panel{
     display:none;background:var(--bg-1);border-left:4px solid var(--accent);
@@ -324,7 +344,11 @@
 
   /* projects */
   .proj-grid{width:100%;max-width:480px;display:grid;grid-template-columns:1fr;gap:20px;}
-  .proj-card{background:var(--card);border-radius:12px;padding:26px 26px 24px;border:1px solid var(--line);}
+  .proj-card{
+    background:var(--card);border-radius:12px;padding:26px 26px 24px;border:1px solid var(--line);
+    transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+  }
+  .proj-card:hover{transform:translateY(-5px);box-shadow:0 14px 28px rgba(0,0,0,.35);border-color:var(--teal);}
   .proj-card h3{margin:0 0 6px;font-size:1.1rem;}
   .proj-tag{color:var(--teal);font-size:.78rem;font-family:'JetBrains Mono',monospace;margin:0 0 4px;}
   .proj-status{
@@ -360,7 +384,12 @@
 
   /* contact */
   .contact-row{display:flex;gap:36px;align-items:center;}
-  .contact-row a{color:var(--white);opacity:.85;transition:opacity .2s ease, color .2s ease, transform .2s ease;}
+  .contact-row a{color:var(--white);opacity:.85;transition:opacity .2s ease, color .2s ease, transform .2s ease;position:relative;}
+  .contact-row a::before{
+    content:'';position:absolute;inset:-16px;border:2px solid var(--accent);border-radius:50%;
+    opacity:0;transform:scale(.5);transition:opacity .3s ease, transform .3s ease;
+  }
+  .contact-row a:hover::before{opacity:.55;transform:scale(1);}
   .contact-row a:hover{opacity:1;color:var(--accent);transform:translateY(-3px);}
   .contact-row svg{width:40px;height:40px;}
   .contact-note{margin-top:26px;color:var(--grey);font-size:.85rem;text-align:center;max-width:420px;}
@@ -444,6 +473,7 @@
     <div class="stat"><div class="num display" data-count="700" data-suffix="">0</div><div class="label">kitchens across the network</div></div>
     <div class="stat"><div class="num display" data-count="6" data-suffix="">0</div><div class="label">cities across the network</div></div>
     <div class="stat"><div class="num display" data-count="10" data-suffix="mo">0</div><div class="label">fresher &rarr; Senior Executive</div></div>
+    <div class="stat"><div class="num display" data-count="24" data-suffix="/7">0</div><div class="label">operations, per Loyal Hospitality</div></div>
     <div class="stat"><div class="num display" style="font-size:1.3rem;">GATEWAY</div><div class="label">on-premises gateway configured, auto-refresh scheduled</div></div>
   </div>
 </section>
@@ -557,7 +587,7 @@
         <li>Built the company's entire BI function independently, from the first data connection to the reporting layer &mdash; there was no BI practice before this.</li>
         <li>Own 8+ major production dashboards, each spanning ~20 pages with both detailed and summarized report views, used daily by the CEO, COO, Finance, BD, and Operations teams across 45 locations and 700 kitchens in 6 cities.</li>
         <li>Set up and maintain the on-premises data gateway with scheduled auto-refresh, keeping every dashboard current without manual intervention.</li>
-        <li>Report domains span OBOI Complaints (complaint-type breakdowns, complaint &amp; order % ratios), the OBOI Funnel Report with hourly trend drilldowns, and space/occupancy reporting.</li>
+        <li>Report domains span OBOI Complaints (OBOI = "One Brand One Identity", Loyal Hospitality's in-house brand model; complaint-type breakdowns, complaint &amp; order % ratios), the OBOI Funnel Report with hourly trend drilldowns, and space/occupancy reporting.</li>
         <li>Manage the delivery-platform landscape across Swiggy, Zomato, Ownly, Tipplr, and direct orders, with platform brand colors carried into the visuals.</li>
       </ul>
     </div>
@@ -653,29 +683,55 @@
     var el = document.getElementById('heroTitle');
     var finalText = el.textContent;
     var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ#%&*+=-/\\';
-    el.classList.add('scrambling');
-    var letters = finalText.split('').map(function(ch, i){
-      return { final: ch, revealAt: i * 2 + Math.floor(Math.random() * 6) + 5 };
-    });
-    var maxTick = Math.max.apply(null, letters.map(function(l){ return l.revealAt; }));
-    var tick = 0;
-    var timer = setInterval(function(){
-      var out = '';
-      var allDone = true;
-      letters.forEach(function(l){
-        if(l.final === ' '){ out += ' '; return; }
-        if(tick >= l.revealAt){ out += l.final; }
-        else { out += chars[Math.floor(Math.random() * chars.length)]; allDone = false; }
+    var hovering = false;
+    var pendingRestart = false;
+    var scrambleTimer = null;
+
+    function runDecrypt(){
+      el.classList.remove('resolved');
+      el.classList.add('scrambling');
+      var letters = finalText.split('').map(function(ch, i){
+        return { final: ch, revealAt: i * 4 + Math.floor(Math.random() * 8) + 6 };
       });
-      el.textContent = out;
-      tick++;
-      if(tick > maxTick + 1 || allDone){
-        clearInterval(timer);
-        el.textContent = finalText;
-        el.classList.remove('scrambling');
-        el.classList.add('resolved');
+      var maxTick = Math.max.apply(null, letters.map(function(l){ return l.revealAt; }));
+      var tick = 0;
+      scrambleTimer = setInterval(function(){
+        var out = '';
+        var allDone = true;
+        letters.forEach(function(l){
+          if(l.final === ' '){ out += ' '; return; }
+          if(tick >= l.revealAt){ out += l.final; }
+          else { out += chars[Math.floor(Math.random() * chars.length)]; allDone = false; }
+        });
+        el.textContent = out;
+        tick++;
+        if(tick > maxTick + 1 || allDone){
+          clearInterval(scrambleTimer);
+          scrambleTimer = null;
+          el.textContent = finalText;
+          el.classList.remove('scrambling');
+          el.classList.add('resolved');
+          if(hovering){
+            pendingRestart = true;
+          } else {
+            setTimeout(function(){ if(!hovering) runDecrypt(); else pendingRestart = true; }, 5000);
+          }
+        }
+      }, 110);
+    }
+
+    el.addEventListener('mouseenter', function(){
+      hovering = true;
+    });
+    el.addEventListener('mouseleave', function(){
+      hovering = false;
+      if(pendingRestart){
+        pendingRestart = false;
+        runDecrypt();
       }
-    }, 45);
+    });
+
+    runDecrypt();
   })();
 
   document.querySelectorAll('.faq-item').forEach(function(item){
@@ -687,11 +743,33 @@
     });
   });
 
+  function initTabIndicator(container){
+    if(!container) return null;
+    var indicator = document.createElement('div');
+    indicator.className = 'tab-indicator';
+    container.insertBefore(indicator, container.firstChild);
+    function moveTo(btn){
+      if(!btn) return;
+      indicator.style.left = btn.offsetLeft + 'px';
+      indicator.style.width = btn.offsetWidth + 'px';
+    }
+    var active = container.querySelector('.exp-tab.active');
+    requestAnimationFrame(function(){ moveTo(active); });
+    window.addEventListener('resize', function(){
+      moveTo(container.querySelector('.exp-tab.active'));
+    });
+    return moveTo;
+  }
+  var certIndicatorMove = initTabIndicator(document.getElementById('certTabs'));
+  var expTabsContainer = document.querySelector('#experience .exp-tabs');
+  var expIndicatorMove = initTabIndicator(expTabsContainer);
+
   var certTabs = document.querySelectorAll('#certTabs .exp-tab');
   certTabs.forEach(function(tab){
     tab.addEventListener('click', function(){
       certTabs.forEach(function(t){ t.classList.remove('active'); });
       tab.classList.add('active');
+      if(certIndicatorMove) certIndicatorMove(tab);
       var cat = tab.dataset.cat;
       document.querySelectorAll('.cert-item').forEach(function(item){
         item.style.display = (cat === 'all' || item.dataset.cat === cat) ? 'flex' : 'none';
@@ -705,6 +783,7 @@
       tabs.forEach(function(t){ t.classList.remove('active'); });
       document.querySelectorAll('.exp-panel').forEach(function(p){ p.classList.remove('active'); });
       tab.classList.add('active');
+      if(expIndicatorMove) expIndicatorMove(tab);
       document.getElementById('panel-' + tab.dataset.tab).classList.add('active');
     });
   });
