@@ -174,7 +174,7 @@ SITE</h1>
     <div class="stat"><div class="num display" data-count="700" data-suffix="">0</div><div class="label">kitchens across the network</div></div>
     <div class="stat"><div class="num display" data-count="6" data-suffix="">0</div><div class="label">cities across the network</div></div>
     <div class="stat"><div class="num display" data-count="10" data-suffix="mo">0</div><div class="label">fresher &rarr; Senior Executive</div></div>
-    <div class="stat"><div class="num display" data-count="24" data-suffix="/7">0</div><div class="label">operations, per Loyal Hospitality</div></div>
+    <div class="stat"><div class="num display" data-count="24" data-suffix="/7">0</div><div class="label">operations, round the clock</div></div>
     <div class="stat"><div class="num display" style="font-size:1.3rem;">GATEWAY</div><div class="label">on-premises gateway configured, auto-refresh scheduled</div></div>
   </div>
 </section>
@@ -522,6 +522,7 @@ SITE</h1>
       if(entry.isIntersecting && !counted){
         counted = true;
         document.querySelectorAll('.stat .num').forEach(function(el){
+          if(!el.dataset.count) return;
           var target = parseInt(el.dataset.count, 10);
           var suffix = el.dataset.suffix || '';
           var start = 0;
